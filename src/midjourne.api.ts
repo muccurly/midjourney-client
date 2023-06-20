@@ -132,7 +132,7 @@ export class MidjourneyApi extends Command {
       channel_id: this.config.ChannelId,
       message_flags: flags,
       message_id: msgId,
-      application_id: "936929561302675456",
+      application_id: this.config.ApplicationId,
       session_id: this.config.SessionId,
       data: {
         component_type: 2,

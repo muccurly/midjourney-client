@@ -11,6 +11,7 @@ export interface MJConfig {
   MaxWait: number;
   SessionId: string;
   ServerId?: string;
+  ApplicationId?: string;
   Ws?: boolean;
   HuggingFaceToken?: string;
   DiscordBaseUrl: string;
@@ -27,6 +28,7 @@ export interface MJConfigParam {
   Ws?: boolean;
   HuggingFaceToken?: string;
   ServerId?: string;
+  ApplicationId?: string;
   SessionId?: string;
   DiscordBaseUrl?: string;
   WsBaseUrl?: string;
@@ -38,6 +40,7 @@ export const DefaultMJConfig: MJConfig = {
   ChannelId: "1077800642086703114",
   SalaiToken: "",
   SessionId: "8bb7f5b79c7a49f7d0824ab4b8773a81",
+  ApplicationId: "936929561302675456",
   Debug: false,
   Limit: 50,
   Ws: true,
