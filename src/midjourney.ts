@@ -134,6 +134,33 @@ export class Midjourney extends MidjourneyMessage {
     }
     return null;
   }
+  async SwapFace(idname: string, imgUri: string){
+    const nonce = nextNonce();
+    const DcImage = await this.MJApi.UploadImage(imgUri);
+    this.log(`Describe`, DcImage, "nonce", nonce);
+    const httpStatus = await this.MJApi.SwapFaceApi(idname, DcImage, nonce);
+    if (httpStatus !== 204) {
+      throw new Error(`DescribeApi failed with status ${httpStatus}`);
+    }
+    if (this.wsClient) {
+      return this.wsClient.waitDescribe(nonce);
+    }
+    return null;
+  }
+
+  async SaveId(idname: string, imgUri: string){
+    const nonce = nextNonce();
+    const DcImage = await this.MJApi.UploadImage(imgUri);
+    this.log(`Describe`, DcImage, "nonce", nonce);
+    const httpStatus = await this.MJApi.SaveIdApi(idname, DcImage, nonce);
+    if (httpStatus !== 204) {
+      throw new Error(`DescribeApi failed with status ${httpStatus}`);
+    }
+    if (this.wsClient) {
+      return this.wsClient.waitDescribe(nonce);
+    }
+    return null;
+  }
 
   async Variation({
     index,

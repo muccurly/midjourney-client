@@ -6,6 +6,8 @@ type CommandName =
   | "info"
   | "fast"
   | "relax"
+  | "saveid"
+  | "swapid"
   | "settings";
 export class Command {
   constructor(public config: MJConfig) {}
@@ -14,6 +16,8 @@ export class Command {
     describe: undefined,
     info: undefined,
     fast: undefined,
+    saveid: undefined,
+    swapid: undefined,
     relax: undefined,
     settings: undefined,
   };
@@ -79,6 +83,56 @@ export class Command {
     const data = await this.commandData("settings");
     return this.data2Paylod(data, nonce);
   }
+  async swapFace(idname: string, image: DiscordImage, nonce?: string) {
+    const data = await this.commandData(
+      "swapid",
+      [
+        {
+          type: 3,
+          name: "idname",
+          value: idname,
+        },
+        {
+          type: 11,
+          name: "image",
+          value: image.id,
+        },
+      ],
+      [
+        {
+          id: <string>image.id,
+          filename: image.filename,
+          uploaded_filename: image.upload_filename,
+        },
+      ]
+    );
+    return this.data2Paylod(data, nonce);
+  }
+  async saveId(idname: string, image: DiscordImage, nonce?: string) {
+    const data = await this.commandData(
+      "saveid",
+      [
+        {
+          type: 3,
+          name: "idname",
+          value: idname,
+        },
+        {
+          type: 11,
+          name: "image",
+          value: image.id,
+        },
+      ],
+      [
+        {
+          id: <string>image.id,
+          filename: image.filename,
+          uploaded_filename: image.upload_filename,
+        },
+      ]
+    );
+    return this.data2Paylod(data, nonce);
+  }
   async describePayload(image: DiscordImage, nonce?: string) {
     const data = await this.commandData(
       "describe",
@@ -121,7 +175,7 @@ export class Command {
   protected data2Paylod(data: any, nonce?: string) {
     const payload = {
       type: 2,
-      application_id: "936929561302675456",
+      application_id: this.config.ApplicationId,
       guild_id: this.config.ServerId,
       channel_id: this.config.ChannelId,
       session_id: this.config.SessionId,
