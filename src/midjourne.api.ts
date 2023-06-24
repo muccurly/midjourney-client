@@ -212,7 +212,7 @@ export class MidjourneyApi extends Command {
       `${this.config.DiscordBaseUrl}/api/v9/channels/${this.config.ChannelId}/attachments`
     );
     const body = { files };
-    console.log("body: ", body);
+    // console.log("body: ", body);
     const response = await this.config.fetch(url.toString(), {
       headers,
       method: "POST",
@@ -239,7 +239,7 @@ export class MidjourneyApi extends Command {
       headers,
       body,
     });
-    console.log("RESPONSE After upload: ", response);
+    // console.log("RESPONSE After upload: ", response);
     if (!response.ok) {
       throw new Error(
         `uploadImage return ${response.status} ${
@@ -254,8 +254,8 @@ export class MidjourneyApi extends Command {
   }
   async SaveIdApi(idname: string, image: DiscordImage, nonce?: string) {
     const payload = await this.saveId(idname, image, nonce);
-    console.log('payload', payload);
-    console.log('payload DATA', payload.data.options);
+    // console.log('payload', payload);
+    // console.log('payload DATA', payload.data.options);
     
     return this.safeIteractions(payload);
   } 

@@ -445,7 +445,7 @@ export class WsMessage {
     return new Promise<string | null>((resolve, reject) => {
       this.onceInfo((message) => {
         console.log("event came: ", message);
-        resolve(message['uri']);
+        resolve(message);
       });
     });
   }
