@@ -299,6 +299,15 @@ export class WsMessage {
   }
   private getEventByContent(content: string) {
     const prompt = this.content2prompt(content);
+    console.log("content: ", content);
+    console.log("prompt: ", prompt);
+    if(prompt.includes("ver")){
+      console.log("prompt returned true: ");
+      return {
+        content,
+        nonce: "swap"
+      }
+    }
     for (const [key, value] of this.waitMjEvents.entries()) {
       if (prompt === this.content2prompt(value.prompt)) {
         return value;
@@ -382,11 +391,13 @@ export class WsMessage {
     this.waitMjEvents.set(nonce, { nonce });
     this.event.push({ event: nonce, callback: once });
   }
-  onceSwap(callback: (message: any) => void) {
+  onceSwap(nonce: string, callback: (message: any) => void) {
     const once = (message: any) => {
       this.remove("swap", once);
+      // this.removeWaitMjEvent(nonce);
       callback(message);
     };
+    // this.waitMjEvents.set(nonce, { nonce });
     this.event.push({ event: "swap", callback: once });
   }
 
@@ -441,11 +452,16 @@ export class WsMessage {
       });
     });
   }
-  async waitSwap() {
-    return new Promise<string | null>((resolve, reject) => {
-      this.onceInfo((message) => {
+  async waitSwap(nonce: string) {
+    return new Promise<any | null>((resolve, reject) => {
+      this.onceSwap(nonce, (message) => {
         console.log("event came: ", message);
-        resolve(message);
+        try {
+          resolve(message);
+        } catch (error) {
+          console.log(error)
+          reject(error);
+        }
       });
     });
   }

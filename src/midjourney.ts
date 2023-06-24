@@ -143,7 +143,7 @@ export class Midjourney extends MidjourneyMessage {
       throw new Error(`DescribeApi failed with status ${httpStatus}`);
     }
     if (this.wsClient) {
-      return this.wsClient.waitSwap();
+      return this.wsClient.waitSwap(nonce);
     }
     return null;
   }

@@ -25,7 +25,7 @@ async function main() {
     "https://media.discordapp.net/attachments/1110688357954109513/1120560465702031481/portrait_of_man_in_kazakh_warrior_in_the_style_of_golden__be193c19-b284-4b5c-a19a-42e1a1fe4d60.png"
   );
   client.Close();
-  console.log(JSON.stringify(msg));
+  console.log("data: ",JSON.stringify(msg));
 }
 main().catch((err) => {
   console.error(err);
