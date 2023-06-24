@@ -382,6 +382,13 @@ export class WsMessage {
     this.waitMjEvents.set(nonce, { nonce });
     this.event.push({ event: nonce, callback: once });
   }
+  onceSwap(callback: (message: any) => void) {
+    const once = (message: any) => {
+      this.remove("swap", once);
+      callback(message);
+    };
+    this.event.push({ event: "swap", callback: once });
+  }
 
   removeInfo(callback: (message: any) => void) {
     this.remove("info", callback);
@@ -434,6 +441,15 @@ export class WsMessage {
       });
     });
   }
+  async waitSwap() {
+    return new Promise<string | null>((resolve, reject) => {
+      this.onceInfo((message) => {
+        console.log("event came: ", message);
+        resolve(message['uri']);
+      });
+    });
+  }
+
   async waitSettings() {
     return new Promise<MJSettings | null>((resolve, reject) => {
       this.onceSettings((message) => {
