@@ -51,5 +51,5 @@ export declare class MidjourneyApi extends Command {
     private uploadImage;
     DescribeApi(image: DiscordImage, nonce?: string): Promise<number>;
     SaveIdApi(idname: string, image: DiscordImage, nonce?: string): Promise<number>;
-    SwapFaceApi(image: DiscordImage, nonce?: string): Promise<number>;
+    SwapFaceApi(idname: string, image: DiscordImage, nonce?: string): Promise<number>;
 }

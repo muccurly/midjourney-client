@@ -130,16 +130,16 @@ class Midjourney extends midjourney_message_1.MidjourneyMessage {
         }
         return null;
     }
-    async SwapFace(imgUri) {
+    async SwapFace(idname, imgUri) {
         const nonce = (0, utls_1.nextNonce)();
         const DcImage = await this.MJApi.UploadImage(imgUri);
         this.log(`Describe`, DcImage, "nonce", nonce);
-        const httpStatus = await this.MJApi.SwapFaceApi(DcImage, nonce);
+        const httpStatus = await this.MJApi.SwapFaceApi(idname, DcImage, nonce);
         if (httpStatus !== 204) {
             throw new Error(`DescribeApi failed with status ${httpStatus}`);
         }
         if (this.wsClient) {
-            return this.wsClient.waitDescribe(nonce);
+            return this.wsClient.waitSwap(nonce);
         }
         return null;
     }

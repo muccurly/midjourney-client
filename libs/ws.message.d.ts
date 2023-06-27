@@ -43,12 +43,14 @@ export declare class WsMessage {
     onceInfo(callback: (message: any) => void): void;
     onceSettings(callback: (message: any) => void): void;
     onceDescribe(nonce: string, callback: (data: any) => void): void;
+    onceSwap(nonce: string, callback: (message: any) => void): void;
     removeInfo(callback: (message: any) => void): void;
     private removeWaitMjEvent;
     onceImage(nonce: string, callback: (data: WsEventMsg) => void): void;
     waitImageMessage(nonce: string, loading?: LoadingHandler): Promise<MJMessage | null>;
     waitDescribe(nonce: string): Promise<string[] | null>;
     waitInfo(): Promise<MJInfo | null>;
+    waitSwap(nonce: string): Promise<any>;
     waitSettings(): Promise<MJSettings | null>;
     msg2Info(msg: string): MJInfo;
 }

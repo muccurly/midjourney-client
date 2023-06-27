@@ -159,6 +159,7 @@ class MidjourneyApi extends command_1.Command {
         };
         const url = new URL(`${this.config.DiscordBaseUrl}/api/v9/channels/${this.config.ChannelId}/attachments`);
         const body = { files };
+        // console.log("body: ", body);
         const response = await this.config.fetch(url.toString(), {
             headers,
             method: "POST",
@@ -177,6 +178,7 @@ class MidjourneyApi extends command_1.Command {
             headers,
             body,
         });
+        // console.log("RESPONSE After upload: ", response);
         if (!response.ok) {
             throw new Error(`uploadImage return ${response.status} ${response.statusText} ${await response.text()}`);
         }
@@ -187,10 +189,12 @@ class MidjourneyApi extends command_1.Command {
     }
     async SaveIdApi(idname, image, nonce) {
         const payload = await this.saveId(idname, image, nonce);
+        // console.log('payload', payload);
+        // console.log('payload DATA', payload.data.options);
         return this.safeIteractions(payload);
     }
-    async SwapFaceApi(image, nonce) {
-        const payload = await this.swapFace(image, nonce);
+    async SwapFaceApi(idname, image, nonce) {
+        const payload = await this.swapFace(idname, image, nonce);
         return this.safeIteractions(payload);
     }
 }

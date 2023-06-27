@@ -16,6 +16,7 @@ class WsMessage {
     constructor(config, MJApi) {
         this.config = config;
         this.MJApi = MJApi;
+        this.MJBotId = this.config.ApplicationId || "936929561302675456";
         this.ws = new this.config.WebSocket(this.config.WsBaseUrl);
         this.ws.addEventListener("open", this.open.bind(this));
     }
@@ -274,6 +275,15 @@ class WsMessage {
     }
     getEventByContent(content) {
         const prompt = this.content2prompt(content);
+        console.log("content: ", content);
+        console.log("prompt: ", prompt);
+        if (prompt.includes("ver")) {
+            console.log("prompt returned true: ");
+            return {
+                content,
+                nonce: "swap"
+            };
+        }
         for (const [key, value] of this.waitMjEvents.entries()) {
             if (prompt === this.content2prompt(value.prompt)) {
                 return value;
@@ -355,6 +365,15 @@ class WsMessage {
         this.waitMjEvents.set(nonce, { nonce });
         this.event.push({ event: nonce, callback: once });
     }
+    onceSwap(nonce, callback) {
+        const once = (message) => {
+            this.remove("swap", once);
+            // this.removeWaitMjEvent(nonce);
+            callback(message);
+        };
+        // this.waitMjEvents.set(nonce, { nonce });
+        this.event.push({ event: "swap", callback: once });
+    }
     removeInfo(callback) {
         this.remove("info", callback);
     }
@@ -400,6 +419,20 @@ class WsMessage {
         return new Promise((resolve, reject) => {
             this.onceInfo((message) => {
                 resolve(this.msg2Info(message));
+            });
+        });
+    }
+    async waitSwap(nonce) {
+        return new Promise((resolve, reject) => {
+            this.onceSwap(nonce, (message) => {
+                console.log("event came: ", message);
+                try {
+                    resolve(message);
+                }
+                catch (error) {
+                    console.log(error);
+                    reject(error);
+                }
             });
         });
     }

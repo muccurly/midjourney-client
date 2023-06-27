@@ -15,7 +15,7 @@ export declare class Midjourney extends MidjourneyMessage {
     Fast(): Promise<null>;
     Relax(): Promise<null>;
     Describe(imgUri: string): Promise<string[] | null>;
-    SwapFace(imgUri: string): Promise<string[] | null>;
+    SwapFace(idname: string, imgUri: string): Promise<any>;
     SaveId(idname: string, imgUri: string): Promise<string[] | null>;
     Variation({ index, msgId, hash, content, flags, loading, }: {
         index: 1 | 2 | 3 | 4;

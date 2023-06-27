@@ -51,7 +51,7 @@ export declare class Command {
         nonce: string | undefined;
         data: any;
     }>;
-    swapFace(image: DiscordImage, nonce?: string): Promise<{
+    swapFace(idname: string, image: DiscordImage, nonce?: string): Promise<{
         type: number;
         application_id: string | undefined;
         guild_id: string | undefined;

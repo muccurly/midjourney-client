@@ -74,8 +74,13 @@ class Command {
         const data = await this.commandData("settings");
         return this.data2Paylod(data, nonce);
     }
-    async swapFace(image, nonce) {
+    async swapFace(idname, image, nonce) {
         const data = await this.commandData("swapid", [
+            {
+                type: 3,
+                name: "idname",
+                value: idname,
+            },
             {
                 type: 11,
                 name: "image",
@@ -93,9 +98,14 @@ class Command {
     async saveId(idname, image, nonce) {
         const data = await this.commandData("saveid", [
             {
-                type: 11,
+                type: 3,
                 name: "idname",
                 value: idname,
+            },
+            {
+                type: 11,
+                name: "image",
+                value: image.id,
             },
         ], [
             {
